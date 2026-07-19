@@ -4,13 +4,14 @@
 
 **A reusable KERV-based Drafter, verifier, acceptance, and fallback stack for Vision-Language-Action models**
 
-[Quick Start](#quick-start) · [Training](#step-4-train-the-drafter) · [LIBERO Rollout](#step-5-evaluate-on-libero) · [Validation](#validated-release) · [Roadmap](TODO.md)
+[中文文档](README-CN.md) · [🚀 Quick Start](#quick-start) · [⚙️ Requirements](#requirements) · [🧪 Validation](#validated-release) · [📝 Citation](#citation)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.2-EE4C2C?logo=pytorch&logoColor=white)
 ![CUDA](https://img.shields.io/badge/CUDA-12.1-76B900?logo=nvidia&logoColor=white)
 ![LIBERO](https://img.shields.io/badge/LIBERO-rollout_verified-1f9d72)
 [![License](https://img.shields.io/badge/license-MulanPSL--2.0-red)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/lusunn111/RoboNix-Speculative-Decoding-Toolkit?style=flat&logo=github)](https://github.com/lusunn111/RoboNix-Speculative-Decoding-Toolkit/stargazers)
 
 </div>
 
@@ -21,13 +22,51 @@ runtime accepts reliable actions or safely falls back to the original policy.
 The toolkit covers data generation, Drafter training, candidate construction,
 verification, acceptance, fallback, and bounded LIBERO rollout validation.
 
-## Architecture
+## 📚 Table of Contents
 
-![Speculative decoding architecture](docs/assets/speculative-decoding-architecture.svg)
+- [📰 News](#news)
+- [🧠 Architecture Overview](#architecture)
+- [🧪 Validated Release](#validated-release)
+- [⚙️ Requirements](#requirements)
+- [🚀 Quick Start](#quick-start)
+- [🧰 Installation and Configuration](#installation)
+- [🏋️ Drafter Training](#training)
+- [🎬 LIBERO Rollout](#rollout)
+- [🗺️ Roadmap](#roadmap)
+- [📝 Citation](#citation)
+- [🤝 Contributors](#contributors)
+- [📄 License](#license)
+
+<a id="news"></a>
+## 📰 News
+
+- **2026-07-19**: 🆕 Reorganized the public release with bilingual documentation,
+  an integrated roadmap and citation, reproducible requirements, and a refreshed
+  architecture overview.
+- **2026-07-18**: 🔥 Validated independent-root execution, target and Drafter
+  checkpoint loading, and a bounded 100-step LIBERO rollout with H.264 video export.
+- **2026-07-18**: 🛠️ Added configurable DeepSpeed paths, task selection, rollout
+  step caps, and an import-compatible OpenVLA namespace.
+
+<a id="architecture"></a>
+## 🧠 Architecture Overview
+
+<!--
+IMAGEGEN SLOT
+Final asset: docs/assets/speculative-decoding-overview-v2.png
+Prompt: docs/assets/IMAGEGEN_PROMPTS.md
+Keep the current editable SVG until the generated PNG is reviewed and committed.
+-->
+
+<div align="center">
+  <img width="96%" alt="RoboNix speculative decoding architecture" src="docs/assets/speculative-decoding-architecture.svg" />
+  <p><b>Figure 1.</b> Offline Drafter preparation and online speculative execution with confidence, kinematic acceptance, and target-policy fallback.</p>
+</div>
 
 Unlike fully autoregressive decoding, speculative decoding uses a smaller draft model to propose multiple candidates before invoking the target model. The target model validates these candidates in parallel. Actual speedup depends on the acceptance rate, candidate-tree shape, GPU, model configuration, and task, and must be measured against an autoregressive baseline under identical conditions.
 
-## Validated Release
+<a id="validated-release"></a>
+## 🧪 Validated Release
 
 The release was validated on an NVIDIA A100 40GB server with an existing
 OpenVLA LIBERO-Goal checkpoint and a trained KERV Drafter.
@@ -48,7 +87,8 @@ execution, action generation, and video export.
 
 *Validated smoke rollout: first, middle, and final frames from the 100-step run.*
 
-## Quick Start
+<a id="quick-start"></a>
+## 🚀 Quick Start
 
 The repository never ships model weights or datasets. Point the commands below
 to existing assets on a large data volume.
@@ -57,7 +97,8 @@ to existing assets on a large data volume.
 conda create -n robonix-spec python=3.10 -y
 conda activate robonix-spec
 python -m pip install --upgrade pip
-python -m pip install -e .
+python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps
 
 python -m pytest -q tests
 python -m scripts.run --help
@@ -89,7 +130,8 @@ Videos are written below `./rollouts/<date>/`; evaluation logs use the supplied
 `--local_log_dir`. A 100-step cap is for deployment verification, not success
 rate measurement.
 
-## Requirements
+<a id="requirements"></a>
+## ⚙️ Requirements
 
 | Component        | Requirement                                                                            |
 | ---------------- | -------------------------------------------------------------------------------------- |
@@ -107,22 +149,27 @@ The repository does not include model weights, datasets, or LIBERO assets. Prepa
 - the LIBERO dataset and simulator environment;
 - writable directories for generated data, checkpoints, and evaluation logs.
 
-## Step 1: Installation
+<a id="installation"></a>
+## 🧰 Step 1: Installation
 
 Clone the project and run all commands from the repository root:
 
 ```bash
 git clone https://github.com/lusunn111/RoboNix-Speculative-Decoding-Toolkit.git
-cd Robonix-Speculative-Decoding-Toolkit
+cd RoboNix-Speculative-Decoding-Toolkit
 
 conda create -n spec-decoding python=3.10 -y
 conda activate spec-decoding
 
 python -m pip install --upgrade pip
-python -m pip install -e .
+python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps
 ```
 
-Pinned core dependencies are listed in `requirements/requirements-min.txt`. Additional LIBERO dependencies are available in `benchmarks/libero/experiments/libero_requirements.txt`. Install CUDA-dependent packages using builds compatible with the local driver and toolkit.
+The root `requirements.txt` is the reproducible installation entry and delegates
+to `requirements/requirements-min.txt`. Additional LIBERO dependencies are in
+`benchmarks/libero/experiments/libero_requirements.txt`. Install CUDA-dependent
+packages using builds compatible with the local driver and toolkit.
 
 Run lightweight smoke checks after installation:
 
@@ -131,7 +178,7 @@ python -c "import service_bootstrap as s; print(s.activate_vendor())"
 python -m scripts.run --help
 ```
 
-## Step 2: Configuration
+## 🔧 Step 2: Configuration
 
 Copy the environment template and replace every placeholder with a local path:
 
@@ -156,7 +203,7 @@ grep -R "PATH_TO\|/SpecVLA" scripts vendor/openvla/specdecoding \
   vendor/openvla/experiments/robot/libero
 ```
 
-## Step 3: Generate Draft-Model Training Data
+## 🧱 Step 3: Generate Draft-Model Training Data
 
 The stable runner accepts a script path relative to `vendor/openvla/` and forwards all remaining arguments unchanged:
 
@@ -179,7 +226,8 @@ python -m scripts.run \
 
 The script's `vla_path`, dataset path, and related values are currently source-level configuration fields. Set them to valid local assets before execution.
 
-## Step 4: Train the Draft Model
+<a id="training"></a>
+## 🏋️ Step 4: Train the Draft Model
 
 1. Review `configs/ds_config.json` and `configs/llama_2_chat_7B_config.json`.
 2. Configure the target VLA, generated dataset, and output paths in `FinetuneConfig`.
@@ -200,7 +248,8 @@ bash train_ds_libero_goal.sh
 
 Adjust GPU indices and the distributed port for the local environment. For reproducibility, record the Git revision, target-model version, data version, DeepSpeed configuration, GPU model, and random seed for every training run.
 
-## Step 5: Evaluate on LIBERO
+<a id="rollout"></a>
+## 🎬 Step 5: Evaluate on LIBERO
 
 Configure headless rendering before running an evaluation:
 
@@ -253,7 +302,7 @@ python -m scripts.run \
 
 Supported task suites include `libero_spatial`, `libero_object`, `libero_goal`, `libero_10`, and `libero_90`. Use `--center_crop True` when the target model was fine-tuned with the corresponding image augmentation. Supply a compatible Drafter with `--spec_checkpoint`; use `--task_ids` and `--max_steps_override` for bounded validation before running a complete suite.
 
-## Benchmarking Guidelines
+## 📊 Benchmarking Guidelines
 
 Run autoregressive and speculative entry points with the same hardware, target model, task suite, and random seeds. At minimum, report:
 
@@ -267,7 +316,7 @@ Run autoregressive and speculative entry points with the same hardware, target m
 
 Do not report model-forward latency as end-to-end latency. Image preprocessing, simulator stepping, warm-up, synchronization, and logging can materially affect results. Warm up the model, repeat runs, and report both averages and percentiles.
 
-## Repository Layout
+## 🗂️ Repository Layout
 
 ```text
 .
@@ -282,8 +331,10 @@ Do not report model-forward latency as end-to-end latency. Image preprocessing, 
 ├── scripts/                  # Stable runner and workflow entry points
 ├── benchmarks/libero/        # LIBERO experiments and speed tests
 ├── configs/                  # DeepSpeed, model, and environment templates
+├── requirements.txt          # Reproducible installation entry
 ├── requirements/             # Core dependency pins
 ├── tests/                    # Layout, registry, and lazy-import tests
+├── docs/assets/              # Architecture assets and the web ImageGen prompt
 ├── utils/                    # Common, loading, and KV-cache utilities
 ├── vendor/openvla/           # Canonical, import-compatible source tree
 └── service_bootstrap.py      # Vendor activation and guarded script runner
@@ -293,14 +344,42 @@ Do not report model-forward latency as end-to-end latency. Image preprocessing, 
 
 The default strategy is `modules.strategies.modeling_speculation`. The `_1`, `_14`, `_7d`, `_jiou`, and `_yuzhi` variants represent distinct research experiments and intentionally remain separate.
 
-## Contributors
+<a id="roadmap"></a>
+## 🗺️ Roadmap
+
+- [x] Publish an independently runnable source-only repository.
+- [x] Validate target-model and Drafter loading plus bounded video rollout.
+- [x] Adopt the RoboNix Mulan PSL v2 license and remove citation placeholders.
+- [ ] Publish compatible Drafter checkpoints with checksums and model cards.
+- [ ] Add autoregressive-versus-speculative benchmark tables and acceptance metrics.
+- [ ] Add more Drafter architectures and verification strategies.
+- [ ] Provide a versioned RoboNix service adapter.
+
+<a id="citation"></a>
+## 📝 Citation
+
+If this toolkit supports your research, please consider giving the repository a
+star ⭐ and citing the KERV paper:
+
+```bibtex
+@article{zheng2026kerv,
+  title   = {KERV: Kinematic-Rectified Speculative Decoding for Embodied VLA Models},
+  author  = {Zheng, Zihao and Mao, Zhihao and Li, Maoliang and Chen, Jiayu and Sun, Xinhao and Zhang, Zhaobo and Cao, Donggang and Mei, Hong and Chen, Xiang},
+  journal = {arXiv preprint arXiv:2603.01581},
+  year    = {2026}
+}
+```
+
+<a id="contributors"></a>
+## 🤝 Contributors
 
 We thank [HuiruHe](https://github.com/HuiruHe) and
 [zhengzihaoPKU](https://github.com/zhengzihaoPKU) for their contributions to
 the toolkit. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the contributor policy.
 
-## Citation and License
+<a id="license"></a>
+## 📄 License
 
-Citation metadata is provided in `CITATION.cff`. The project is licensed under
-the Mulan Permissive Software License, Version 2 (Mulan PSL v2); see
-[LICENSE](LICENSE). Vendored components retain their included licenses.
+The project is licensed under the Mulan Permissive Software License, Version 2
+(Mulan PSL v2); see [LICENSE](LICENSE). Vendored components retain their included
+licenses.
