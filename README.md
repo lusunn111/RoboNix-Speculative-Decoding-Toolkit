@@ -1,8 +1,8 @@
 <div align="center">
 
-# RoboNix Speculative Decoding Toolkit
+# RoboNix Motion-Aware Action Verification and Recovery Skill
 
-**A reusable physics-prior-guided speculative execution stack for Vision-Language-Action models**
+**A system-level action verification, motion-aware compensation, and policy recovery Skill for embodied models**
 
 [中文文档](README-CN.md) · [🚀 Quick Start](#quick-start) · [⚙️ Requirements](#requirements) · [🧪 Validation](#validated-release) · [📝 Citation](#citation)
 
@@ -15,16 +15,22 @@
 
 </div>
 
-The RoboNix Speculative Decoding Toolkit packages physics-prior-guided speculative
-execution as an independently runnable Vision-Language-Action (VLA) workflow. A lightweight Drafter proposes
-candidate action sequences, the target VLA verifies them in parallel, and the
-runtime accepts reliable actions or safely falls back to the original policy.
-The toolkit covers data generation, Drafter training, candidate construction,
-verification, acceptance, fallback, and bounded LIBERO rollout validation.
+The RoboNix Speculative Decoding Toolkit provides an **Action Verification and
+Recovery Skill** for existing Vision-Language-Action (VLA) models. It reduces
+repeated target-model inference by validating low-cost action proposals, using
+motion priors to compensate recoverable errors, and returning control to the
+original policy whenever a proposal is unsafe or unreliable.
+
+The toolkit turns candidate generation, target-model verification, adaptive
+acceptance, motion-aware compensation, and policy fallback into one deployable
+execution path. The current release includes the complete OpenVLA workflow,
+Drafter preparation and training utilities, and reproducible LIBERO rollout
+entry points.
 
 ## 📚 Table of Contents
 
 - [📰 News](#news)
+- [⚡ System Capability and Results](#system-results)
 - [🧠 Architecture Overview](#architecture)
 - [🔌 RoboNix Integration and Outlook](#robonix-integration)
 - [🧪 Validated Release](#validated-release)
@@ -41,13 +47,34 @@ verification, acceptance, fallback, and bounded LIBERO rollout validation.
 <a id="news"></a>
 ## 📰 News
 
-- **2026-07-19**: 🆕 Reorganized the public release with bilingual documentation,
-  an integrated roadmap and citation, reproducible requirements, and a refreshed
-  architecture overview.
+- **2026-07-19**: 🆕 Reframed the toolkit as a system-level action verification
+  and recovery Skill, with capability results, model support, and bilingual documentation.
 - **2026-07-18**: 🔥 Validated independent-root execution, target and Drafter
   checkpoint loading, and a bounded 100-step LIBERO rollout with H.264 video export.
 - **2026-07-18**: 🛠️ Added configurable DeepSpeed paths, task selection, rollout
   step caps, and an import-compatible OpenVLA namespace.
+
+<a id="system-results"></a>
+## ⚡ System Capability and Results
+
+From the RoboNix runtime perspective, this Skill sits between candidate action
+generation and robot execution. It verifies proposed actions, compensates
+recoverable motion errors, and triggers deterministic policy fallback when a
+candidate cannot be trusted.
+
+| System-level result | Current capability |
+| --- | --- |
+| End-to-end acceleration | More than **1.45×** across evaluated LIBERO suites |
+| Gain over fixed-threshold speculative execution | More than **25%** additional acceleration |
+| Execution reliability | Near-baseline task success with motion-aware compensation and fallback |
+| Open-source rollout | OpenVLA + trained Drafter, 100 bounded steps, H.264 video exported |
+
+### Supported models
+
+| Model family | Status | Scope |
+| --- | --- | --- |
+| OpenVLA | ✅ Completed | Drafter training, candidate generation, verification, compensation, fallback, and LIBERO rollout |
+| Other token-based VLA models | ⏳ In progress | Pluggable model and Drafter interfaces are planned |
 
 <a id="architecture"></a>
 ## 🧠 Architecture Overview
@@ -367,10 +394,12 @@ The default strategy is `modules.strategies.modeling_speculation`. The `_1`, `_1
 
 - [x] Publish an independently runnable source-only repository.
 - [x] Validate target-model and Drafter loading plus bounded video rollout.
+- [x] Package motion-aware verification, compensation, and policy fallback as one execution path.
 - [x] Adopt the RoboNix Mulan PSL v2 license and remove citation placeholders.
 - [ ] Publish compatible Drafter checkpoints with checksums and model cards.
 - [ ] Add autoregressive-versus-speculative benchmark tables and acceptance metrics.
 - [ ] Add more Drafter architectures and verification strategies.
+- [ ] Validate additional VLA model families through the same Skill contract.
 - [ ] Provide a versioned RoboNix service adapter.
 
 <a id="citation"></a>
