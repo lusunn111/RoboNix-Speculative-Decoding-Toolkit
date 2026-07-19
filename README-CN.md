@@ -202,14 +202,15 @@ bash train_ds_libero_goal.sh
 <a id="citation"></a>
 ## 📝 引用
 
-如果本工具包对你的研究有帮助，欢迎给仓库一个 Star ⭐，并引用 KERV 论文：
+如果本工具包对你的研究有帮助，欢迎给仓库一个 Star ⭐，并引用本软件仓库：
 
 ```bibtex
-@article{zheng2026kerv,
-  title   = {KERV: Kinematic-Rectified Speculative Decoding for Embodied VLA Models},
-  author  = {Zheng, Zihao and Mao, Zhihao and Li, Maoliang and Chen, Jiayu and Sun, Xinhao and Zhang, Zhaobo and Cao, Donggang and Mei, Hong and Chen, Xiang},
-  journal = {arXiv preprint arXiv:2603.01581},
-  year    = {2026}
+@software{mao2026robonix_speculative_decoding_toolkit,
+  author  = {Mao, Zhihao and He, Huiru and Zheng, Zihao},
+  title   = {RoboNix Speculative Decoding Toolkit},
+  year    = {2026},
+  version = {0.1.0},
+  url     = {https://github.com/lusunn111/RoboNix-Speculative-Decoding-Toolkit}
 }
 ```
 

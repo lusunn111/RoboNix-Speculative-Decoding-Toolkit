@@ -359,14 +359,15 @@ The default strategy is `modules.strategies.modeling_speculation`. The `_1`, `_1
 ## 📝 Citation
 
 If this toolkit supports your research, please consider giving the repository a
-star ⭐ and citing the KERV paper:
+star ⭐ and citing this software repository:
 
 ```bibtex
-@article{zheng2026kerv,
-  title   = {KERV: Kinematic-Rectified Speculative Decoding for Embodied VLA Models},
-  author  = {Zheng, Zihao and Mao, Zhihao and Li, Maoliang and Chen, Jiayu and Sun, Xinhao and Zhang, Zhaobo and Cao, Donggang and Mei, Hong and Chen, Xiang},
-  journal = {arXiv preprint arXiv:2603.01581},
-  year    = {2026}
+@software{mao2026robonix_speculative_decoding_toolkit,
+  author  = {Mao, Zhihao and He, Huiru and Zheng, Zihao},
+  title   = {RoboNix Speculative Decoding Toolkit},
+  year    = {2026},
+  version = {0.1.0},
+  url     = {https://github.com/lusunn111/RoboNix-Speculative-Decoding-Toolkit}
 }
 ```
 
