@@ -15,7 +15,7 @@
 
 </div>
 
-RoboNix 推测解码 Toolkit 将 KERV 整理为可以独立发布和运行的具身智能工具链。
+RoboNix 推测解码 Toolkit 将基于物理先验的推测执行整理为可以独立发布和运行的具身智能工具链。
 轻量 Drafter 根据当前观测提出多个候选动作序列，目标 VLA（视觉语言动作模型）
 并行验证候选；可靠候选被接受，不可靠候选被拒绝并回退到原始策略。仓库同时保留
 数据生成、Drafter 训练、候选树、验证、接受与回退以及 LIBERO 评测流程。
@@ -24,6 +24,7 @@ RoboNix 推测解码 Toolkit 将 KERV 整理为可以独立发布和运行的具
 
 - [📰 最新进展](#news)
 - [🧠 架构总览](#architecture)
+- [🔌 RoboNix 集成与前景](#robonix-integration)
 - [🧪 已验证版本](#validated-release)
 - [⚙️ 环境要求](#requirements)
 - [🚀 快速开始](#quick-start)
@@ -62,6 +63,23 @@ IMAGEGEN ASSET
 推测解码的系统收益不只取决于模型前向时间，还取决于候选接受率、候选树形状、
 图像预处理、仿真执行、日志和回退开销。因此正式实验必须在相同硬件、模型和随机
 种子下与自回归基线进行端到端比较。
+
+<a id="robonix-integration"></a>
+## 🔌 RoboNix 集成与前景
+
+本工具包以独立 Skill Toolkit（技能工具包）的形式交付，通过稳定的服务和技能契约接入 RoboNix。基于物理先验的验证与回退逻辑保留在能力提供方内部，Atlas 负责能力发现，Nexus 负责请求传输，Executor 负责能力调度，不需要修改 RoboNix 核心运行时。
+
+<div align="center">
+  <img width="96%" alt="RoboNix 系统架构" src="docs/assets/robonix-system-architecture.png" />
+  <p><b>图 2.</b> 可复用记忆服务、自定义服务与基于 VLA 的用户技能在 RoboNix 中的系统级接入位置。</p>
+</div>
+
+<div align="center">
+  <img width="72%" alt="RoboNix Skill Toolkit 分层位置" src="docs/assets/robonix-skill-toolkit-stack.png" />
+  <p><b>图 3.</b> Skill Toolkit 位于 RoboNix 运行时之上，与框架、HAL、基础库和内核保持清晰边界。</p>
+</div>
+
+未来可以在统一接口下继续扩展不同 Drafter、物理约束、验证策略和在线数据回流机制，使具身执行算法能够独立于机器人硬件和 RoboNix 核心持续演进。
 
 <a id="validated-release"></a>
 ## 🧪 已验证版本
@@ -180,7 +198,7 @@ bash train_ds_libero_goal.sh
 ├── requirements.txt          # 统一安装入口
 ├── requirements/             # 依赖固定版本
 ├── tests/                    # 结构与独立入口测试
-├── vendor/openvla/           # 权威 KERV/OpenVLA 实现
+├── vendor/openvla/           # 推测执行与 OpenVLA 兼容实现
 ├── docs/assets/              # 架构图和 rollout 预览
 └── service_bootstrap.py      # 原始代码激活与安全脚本分发
 ```

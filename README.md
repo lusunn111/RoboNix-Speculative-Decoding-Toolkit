@@ -2,7 +2,7 @@
 
 # RoboNix Speculative Decoding Toolkit
 
-**A reusable KERV-based Drafter, verifier, acceptance, and fallback stack for Vision-Language-Action models**
+**A reusable physics-prior-guided speculative execution stack for Vision-Language-Action models**
 
 [中文文档](README-CN.md) · [🚀 Quick Start](#quick-start) · [⚙️ Requirements](#requirements) · [🧪 Validation](#validated-release) · [📝 Citation](#citation)
 
@@ -15,8 +15,8 @@
 
 </div>
 
-The RoboNix Speculative Decoding Toolkit packages KERV as an independently
-runnable Vision-Language-Action (VLA) workflow. A lightweight Drafter proposes
+The RoboNix Speculative Decoding Toolkit packages physics-prior-guided speculative
+execution as an independently runnable Vision-Language-Action (VLA) workflow. A lightweight Drafter proposes
 candidate action sequences, the target VLA verifies them in parallel, and the
 runtime accepts reliable actions or safely falls back to the original policy.
 The toolkit covers data generation, Drafter training, candidate construction,
@@ -26,6 +26,7 @@ verification, acceptance, fallback, and bounded LIBERO rollout validation.
 
 - [📰 News](#news)
 - [🧠 Architecture Overview](#architecture)
+- [🔌 RoboNix Integration and Outlook](#robonix-integration)
 - [🧪 Validated Release](#validated-release)
 - [⚙️ Requirements](#requirements)
 - [🚀 Quick Start](#quick-start)
@@ -65,11 +66,28 @@ The original SVG is retained as an editable fallback.
 
 Unlike fully autoregressive decoding, speculative decoding uses a smaller draft model to propose multiple candidates before invoking the target model. The target model validates these candidates in parallel. Actual speedup depends on the acceptance rate, candidate-tree shape, GPU, model configuration, and task, and must be measured against an autoregressive baseline under identical conditions.
 
+<a id="robonix-integration"></a>
+## 🔌 RoboNix Integration and Outlook
+
+This toolkit is delivered as an independent Skill Toolkit and connects to RoboNix through stable service and skill contracts. Physics-prior verification and fallback remain inside the provider, while Atlas handles discovery, Nexus transports requests, and Executor dispatches the resulting capability without changing the RoboNix core.
+
+<div align="center">
+  <img width="96%" alt="RoboNix system architecture" src="docs/assets/robonix-system-architecture.png" />
+  <p><b>Figure 2.</b> System-level integration points for reusable memory services, custom services, and VLA-based user skills.</p>
+</div>
+
+<div align="center">
+  <img width="72%" alt="RoboNix Skill Toolkit stack" src="docs/assets/robonix-skill-toolkit-stack.png" />
+  <p><b>Figure 3.</b> Skill Toolkit is distributed above the RoboNix runtime and preserves the framework, HAL, libraries, and kernel boundaries.</p>
+</div>
+
+Looking forward, the same interface can support additional Drafters, physical constraints, verification policies, and online data feedback. The long-term goal is a reusable embodied-execution service whose algorithms can evolve independently from robot hardware and the RoboNix runtime.
+
 <a id="validated-release"></a>
 ## 🧪 Validated Release
 
 The release was validated on an NVIDIA A100 40GB server with an existing
-OpenVLA LIBERO-Goal checkpoint and a trained KERV Drafter.
+OpenVLA LIBERO-Goal checkpoint and a trained compatible Drafter.
 
 | Check | Result |
 | --- | --- |
@@ -187,9 +205,9 @@ cp configs/.env.example configs/.env
 ```
 
 ```dotenv
-KERV_MODEL_ROOT=/path/to/models
-KERV_DATA_ROOT=/path/to/datasets
-KERV_OUTPUT_ROOT=/path/to/outputs
+SPEC_MODEL_ROOT=/path/to/models
+SPEC_DATA_ROOT=/path/to/datasets
+SPEC_OUTPUT_ROOT=/path/to/outputs
 LIBERO_ROOT=/path/to/libero
 CUDA_VISIBLE_DEVICES=0
 ```
