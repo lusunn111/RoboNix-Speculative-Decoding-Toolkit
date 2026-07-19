@@ -27,8 +27,22 @@ execution path. The current release includes the complete OpenVLA workflow,
 Drafter preparation and training utilities, and reproducible LIBERO rollout
 entry points.
 
+<a id="performance-snapshot"></a>
+## 📊 Performance Snapshot
+
+The motion-aware verification and recovery path improves end-to-end execution
+speed while preserving task-level reliability across all four LIBERO suites.
+
+| LIBERO suite | SR | Speedup |
+| --- | ---: | ---: |
+| Goal | 75.6% | 1.54× |
+| Object | 72.3% | 1.49× |
+| Spatial | **83.7%** | **1.57×** |
+| Long | 48.8% | 1.48× |
+
 ## 📚 Table of Contents
 
+- [📊 Performance Snapshot](#performance-snapshot)
 - [📰 News](#news)
 - [⚡ System Capability and Results](#system-results)
 - [🧠 Architecture Overview](#architecture)
