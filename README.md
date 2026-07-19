@@ -15,17 +15,13 @@
 
 </div>
 
-The RoboNix Speculative Decoding Toolkit provides an **Action Verification and
-Recovery Skill** for existing Vision-Language-Action (VLA) models. It reduces
-repeated target-model inference by validating low-cost action proposals, using
-motion priors to compensate recoverable errors, and returning control to the
-original policy whenever a proposal is unsafe or unreliable.
-
-The toolkit turns candidate generation, target-model verification, adaptive
-acceptance, motion-aware compensation, and policy fallback into one deployable
-execution path. The current release includes the complete OpenVLA workflow,
-Drafter preparation and training utilities, and reproducible LIBERO rollout
-entry points.
+The **RoboNix Motion-Aware Action Verification and Recovery Skill** lets
+existing Vision-Language-Action (VLA) models verify low-cost action proposals
+with both the target model and motion priors before execution. Adaptive
+acceptance, motion compensation, and policy fallback reduce repeated large-model
+inference while preserving task-level reliability. The Skill currently supports
+OpenVLA with Drafter-based proposals, parallel verification, motion-aware
+compensation, and original-policy fallback.
 
 <a id="performance-snapshot"></a>
 ## 📊 Performance Snapshot
@@ -61,8 +57,8 @@ speed while preserving task-level reliability across all four LIBERO suites.
 <a id="news"></a>
 ## 📰 News
 
-- **2026-07-19**: 🆕 Reframed the toolkit as a system-level action verification
-  and recovery Skill, with capability results, model support, and bilingual documentation.
+- **2026-07-19**: 🆕 Released the system-level action verification and recovery
+  Skill with capability results, model support, and bilingual documentation.
 - **2026-07-18**: 🔥 Validated independent-root execution, target and Drafter
   checkpoint loading, and a bounded 100-step LIBERO rollout with H.264 video export.
 - **2026-07-18**: 🛠️ Added configurable DeepSpeed paths, task selection, rollout
@@ -110,16 +106,11 @@ Unlike fully autoregressive decoding, speculative decoding uses a smaller draft 
 <a id="robonix-integration"></a>
 ## 🔌 RoboNix Integration and Outlook
 
-This toolkit is delivered as an independent Skill Toolkit and connects to RoboNix through stable service and skill contracts. Physics-prior verification and fallback remain inside the provider, while Atlas handles discovery, Nexus transports requests, and Executor dispatches the resulting capability without changing the RoboNix core.
+This Skill is an independently deployable RoboNix provider connected through stable capability contracts. Physics-prior verification and fallback remain inside the provider, while Atlas handles discovery, Nexus transports requests, and Executor dispatches the resulting capability without changing the RoboNix core.
 
 <div align="center">
   <img width="96%" alt="RoboNix system architecture" src="docs/assets/robonix-system-architecture.png" />
   <p><b>Figure 2.</b> System-level integration points for reusable memory services, custom services, and VLA-based user skills.</p>
-</div>
-
-<div align="center">
-  <img width="72%" alt="RoboNix Skill Toolkit stack" src="docs/assets/robonix-skill-toolkit-stack.png" />
-  <p><b>Figure 3.</b> Skill Toolkit is distributed above the RoboNix runtime and preserves the framework, HAL, libraries, and kernel boundaries.</p>
 </div>
 
 Looking forward, the same interface can support additional Drafters, physical constraints, verification policies, and online data feedback. The long-term goal is a reusable embodied-execution service whose algorithms can evolve independently from robot hardware and the RoboNix runtime.
@@ -419,13 +410,13 @@ The default strategy is `modules.strategies.modeling_speculation`. The `_1`, `_1
 <a id="citation"></a>
 ## 📝 Citation
 
-If this toolkit supports your research, please consider giving the repository a
+If this Skill supports your research, please consider giving the repository a
 star ⭐ and citing this software repository:
 
 ```bibtex
-@software{mao2026robonix_speculative_decoding_toolkit,
+@software{mao2026robonix_action_verification_recovery_skill,
   author  = {Mao, Zhihao and He, Huiru and Zheng, Zihao},
-  title   = {RoboNix Speculative Decoding Toolkit},
+  title   = {RoboNix Motion-Aware Action Verification and Recovery Skill},
   year    = {2026},
   version = {0.1.0},
   url     = {https://github.com/lusunn111/RoboNix-Speculative-Decoding-Toolkit}
@@ -437,7 +428,7 @@ star ⭐ and citing this software repository:
 
 We thank [HuiruHe](https://github.com/HuiruHe) and
 [zhengzihaoPKU](https://github.com/zhengzihaoPKU) for their contributions to
-the toolkit. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the contributor policy.
+the Skill. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the contributor policy.
 
 <a id="license"></a>
 ## 📄 License
