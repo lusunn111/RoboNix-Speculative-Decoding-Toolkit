@@ -1,8 +1,8 @@
 # Architecture Image Prompt
 
-Generate the image in a 16:9 landscape format. Save the reviewed result as
-`speculative-decoding-overview-v2.png` in this directory. The README already
-contains the replacement slot.
+The current README asset was generated from the prompt below and saved as
+`speculative-decoding-overview-v2.png`. Reuse this prompt when regenerating or
+iterating on the architecture figure.
 
 ## Web ImageGen prompt
 
@@ -45,4 +45,3 @@ All modules and arrows must stay fully inside the frame. Use large, readable san
 - The green accept path and orange fallback loop are immediately distinguishable.
 - The complete diagram remains readable when displayed at 80% README width.
 - No object, arrow, or label touches or crosses the canvas boundary.
-

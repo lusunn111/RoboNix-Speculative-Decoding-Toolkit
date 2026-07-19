@@ -48,14 +48,14 @@ RoboNix 推测解码 Toolkit 将 KERV 整理为可以独立发布和运行的具
 ## 🧠 架构总览
 
 <!--
-IMAGEGEN SLOT
-最终图片：docs/assets/speculative-decoding-overview-v2.png
-生成提示词：docs/assets/IMAGEGEN_PROMPTS.md
-新版 PNG 通过检查前继续显示当前可编辑 SVG，避免 README 出现破图。
+IMAGEGEN ASSET
+当前图片：docs/assets/speculative-decoding-overview-v2.png
+重新生成提示词：docs/assets/IMAGEGEN_PROMPTS.md
+原 SVG 继续作为可编辑备用文件保留。
 -->
 
 <div align="center">
-  <img width="96%" alt="RoboNix 推测解码架构" src="docs/assets/speculative-decoding-architecture.svg" />
+  <img width="96%" alt="RoboNix 推测解码架构" src="docs/assets/speculative-decoding-overview-v2.png" />
   <p><b>图 1.</b> 离线 Drafter 准备，以及包含置信度、运动学接受和目标策略回退的在线推测执行链路。</p>
 </div>
 

@@ -52,14 +52,14 @@ verification, acceptance, fallback, and bounded LIBERO rollout validation.
 ## 🧠 Architecture Overview
 
 <!--
-IMAGEGEN SLOT
-Final asset: docs/assets/speculative-decoding-overview-v2.png
-Prompt: docs/assets/IMAGEGEN_PROMPTS.md
-Keep the current editable SVG until the generated PNG is reviewed and committed.
+IMAGEGEN ASSET
+Active asset: docs/assets/speculative-decoding-overview-v2.png
+Regeneration prompt: docs/assets/IMAGEGEN_PROMPTS.md
+The original SVG is retained as an editable fallback.
 -->
 
 <div align="center">
-  <img width="96%" alt="RoboNix speculative decoding architecture" src="docs/assets/speculative-decoding-architecture.svg" />
+  <img width="96%" alt="RoboNix speculative decoding architecture" src="docs/assets/speculative-decoding-overview-v2.png" />
   <p><b>Figure 1.</b> Offline Drafter preparation and online speculative execution with confidence, kinematic acceptance, and target-policy fallback.</p>
 </div>
 
